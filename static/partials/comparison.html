@@ -1,0 +1,74 @@
+<md-bottom-sheet style="position: fixed;" ng-controller="ComparisonController">
+    <div layout="row" layout-padding layout-wrap layout-fill>
+        <md-card layout-align="start center" flex="40">
+            <div id="versionsChart"></div>
+        </md-card>
+        <md-card layout-align="start center" flex>
+            <div layout="row">
+                <div flex="33">
+                    <h3>Exist in Both (Same)</h3>
+                    <md-list class="md-dense">
+                        <md-list-item class="md-2-line" ng-repeat="s in $root.same">
+                            <md-icon class="md-avatar-icon" ng-style="{'background-color': {'1': '#5BC0EB', '2': '#FDE74C',
+                                                                                '3': '#9BC53D', '4': '#FA7921',
+                                                                                '5': '#FF1654', '6': '#2364AA',
+                                                                                '7': '#2B2D42'}[s.index]}"></md-icon>
+                            <div class="md-list-item-text" layout="column">
+                                <h3 ng-if="s.index==1">Mitosis</h3>
+                                <h3 ng-if="s.index==2">Non-Mitosis</h3>
+                                <h3 ng-if="s.index==3">Apoptosis</h3>
+                                <h3 ng-if="s.index==4">Tumor</h3>
+                                <h3 ng-if="s.index==5">Non-Tumor</h3>
+                                <h3 ng-if="s.index==6">Lumen</h3>
+                                <h3 ng-if="s.index==7">Non-Lumen</h3>
+                                <p>#{{ s.id }}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+                <div flex="33">
+                    <h3>Exist only in Current (Added)</h3>
+                    <md-list class="md-dense">
+                        <md-list-item class="md-2-line" ng-repeat="a in $root.added">
+                            <md-icon class="md-avatar-icon" ng-style="{'background-color': {'1': '#5BC0EB', '2': '#FDE74C',
+                                                                                '3': '#9BC53D', '4': '#FA7921',
+                                                                                '5': '#FF1654', '6': '#2364AA',
+                                                                                '7': '#2B2D42'}[a.index]}"></md-icon>
+                            <div class="md-list-item-text" layout="column">
+                                <h3 ng-if="a.index==1">Mitosis</h3>
+                                <h3 ng-if="a.index==2">Non-Mitosis</h3>
+                                <h3 ng-if="a.index==3">Apoptosis</h3>
+                                <h3 ng-if="a.index==4">Tumor</h3>
+                                <h3 ng-if="a.index==5">Non-Tumor</h3>
+                                <h3 ng-if="a.index==6">Lumen</h3>
+                                <h3 ng-if="a.index==7">Non-Lumen</h3>
+                                <p>#{{ a.id }}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+                <div flex>
+                    <h3>Exist only in Previous (Removed)</h3>
+                    <md-list class="md-dense">
+                        <md-list-item class="md-2-line" ng-repeat="r in $root.removed">
+                            <md-icon class="md-avatar-icon" ng-style="{'background-color': {'1': '#5BC0EB', '2': '#FDE74C',
+                                                                                '3': '#9BC53D', '4': '#FA7921',
+                                                                                '5': '#FF1654', '6': '#2364AA',
+                                                                                '7': '#2B2D42'}[r.index]}"></md-icon>
+                            <div class="md-list-item-text" layout="column">
+                                <h3 ng-if="r.index==1">Mitosis</h3>
+                                <h3 ng-if="r.index==2">Non-Mitosis</h3>
+                                <h3 ng-if="r.index==3">Apoptosis</h3>
+                                <h3 ng-if="r.index==4">Tumor</h3>
+                                <h3 ng-if="r.index==5">Non-Tumor</h3>
+                                <h3 ng-if="r.index==6">Lumen</h3>
+                                <h3 ng-if="r.index==7">Non-Lumen</h3>
+                                <p>#{{ r.id }}</p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+            </div>
+        </md-card>
+    </div>
+</md-bottom-sheet>

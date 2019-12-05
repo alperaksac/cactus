@@ -1,0 +1,51 @@
+<div ng-controller="LoginController" layout="column" ng-cloak>
+    <h1 style="font-family: 'Shojumaru'; text-align:center;"><span style="color:#6F6456">C</span>ancer image
+        <span style="color:#CDDC49">A</span>nnotating,
+        <span style="color:#CB7E94">C</span>alibrating,
+        <span style="color:#E94B30">T</span>esting,
+        <span style="color:#FEE659">U</span>nderstanding and
+        <span style="color:#A1CFDD">S</span>haring</h1>
+
+    <form name="loginForm" ng-submit="login()">
+        <md-content class="md-padding" layout="row" layout-align="space-around">
+            <md-card flex-gt-sm="50" flex-gt-md="33" md-whiteframe="7" style="margin-right: 25px;" flex>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2><span>LOGIN</span></h2>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                    <div layout layout-align="end">
+                        <div layout="row">
+                            <md-button class="md-fab" aria-label="Sign Up" ui-sref="signup" style="margin-right: -45px; margin-top: -45px">
+                                <md-icon>add</md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <md-input-container class="md-block">
+                        <label>Email:</label>
+                        <input name="email" ng-model="user.email" type="email" required>
+                        <div ng-messages="loginForm.email.$error" role="alert">
+                            <div ng-message="required">Please enter your email.</div>
+                            <div ng-message="email">Your email is invalid.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Password:</label>
+                        <input name="password" ng-model="user.password" type="password" required>
+                        <div ng-messages="loginForm.password.$error" role="alert">
+                            <div ng-message="required">Please enter your password.</div>
+                        </div>
+                        <div ng-messages="loginForm.loginServerErrors" role="alert" md-auto-hide="false">
+                            <div ng-message="loginFailed">{{ response }}</div>
+                        </div>
+                    </md-input-container>
+                    <md-card-actions layout="column" layout-align="center">
+                        <md-button name="submit" class="md-raised md-primary" type="submit" aria-label="Go">GO</md-button>
+                        <md-button class="md-primary" ui-sref="forgot">Forgot your password?</md-button>
+                    </md-card-actions>
+                </md-card-content>
+            </md-card>
+        </md-content>
+    </form>
+</div>

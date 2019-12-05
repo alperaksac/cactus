@@ -1,0 +1,79 @@
+<div ng-controller="ScoringController" ng-init="init()">
+    <div layout="column" layout-align="start center">
+        <md-tabs id="scoringSteps" md-selected="selectedTab" md-swipe-content md-center-tabs md-dynamic-height md-border-bottom layout-fill>
+            <md-tab label="Initial Score" ng-if="initialStep || compare">
+                <div ng-include="'static/partials/initialScore.html'"></div>
+            </md-tab>
+            <md-tab label="Nuclear Pleomorphism" md-on-select="initNuclear()" ng-if="!initialStep || compare">
+                <div ng-include="'static/partials/nuclear.html'"></div>
+            </md-tab>
+            <md-tab label="Mitotic Rate" md-on-select="initMitosis()" ng-if="!initialStep || compare">
+                <div ng-include="'static/partials/mitosis.html'"></div>
+            </md-tab>
+            <md-tab label="Tubule Formation" md-on-select="initTubular()" ng-if="!initialStep || compare">
+                <div ng-include="'static/partials/tubule.html'"></div>
+            </md-tab>
+        </md-tabs>
+    </div>
+
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="myDialog">
+            <md-dialog aria-label="Reference">
+                <canvas id="imageCanvas" style="margin: auto; max-width: 100%;"></canvas>
+            </md-dialog>
+        </div>
+    </div>
+
+    <md-button id="referenceButton" aria-label="Open Reference" class="md-fab md-primary md-fab-top-left" ng-click="showDialog()"
+        style="position:fixed !important;" ng-show="!initialStep && selectedTab!=0 && !scoredDone">
+        <md-tooltip md-direction="right">Open Reference</md-tooltip>
+        <md-icon>image</md-icon>
+    </md-button>
+
+    <md-fab-speed-dial id="controlButtons" md-direction="up" class="md-scale md-fab-bottom-right md-hover-full" md-open="btn"
+        ng-mouseenter="btn=true" ng-mouseleave="btn=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button aria-label="Done" class="md-fab md-primary" ng-click="save()" ng-disabled="$root.initialScore==0" ng-hide="compare || scoredDone">
+                <md-tooltip ng-show="!initialStep" md-direction="left">Save</md-tooltip>
+                <md-icon ng-show="!initialStep">done</md-icon>
+                <md-tooltip ng-show="initialStep" md-direction="left">Next</md-tooltip>
+                <md-icon ng-show="initialStep">arrow_forward</md-icon>
+            </md-button>
+            <md-button aria-label="Back" class="md-fab md-primary" ng-click="back()" ng-show="compare || scoredDone">
+                <md-tooltip md-direction="left">Back</md-tooltip>
+                <md-icon>arrow_back</md-icon>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <md-button aria-label="Cancel" class="md-fab md-raised md-warn" ng-click="cancel()" ng-hide="compare || scoredDone">
+                <md-tooltip md-direction="left">Cancel</md-tooltip>
+                <md-icon>clear</md-icon>
+            </md-button>
+            <md-button aria-label="Charts" class="md-fab md-raised md-warn" ng-click="showCharts()" ng-hide="initialStep">
+                <md-tooltip md-direction="left">Charts</md-tooltip>
+                <md-icon aria-label="Charts">pie_chart</md-icon>
+            </md-button>
+            <md-button aria-label="Help" class="md-fab md-raised md-warn" ng-click="startIntro(!initialStep+selectedTab)" ng-hide="compare"
+                ng-controller="IntroController">
+                <md-tooltip md-direction="left">Help</md-tooltip>
+                <md-icon aria-label="Charts">help_outline</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    <md-fab-speed-dial id="zoomButtons" md-direction="down" class="md-fab-top-right" md-open="true" style="position:fixed !important;"
+        ng-show="!initialStep && !scoredDone && (selectedTab==0 || (selectedTab==1 && mitosisScore['data'].length > 0) || (selectedTab==2 && tubularScore['data'].length > 0))">
+        <md-fab-trigger>
+            <md-button aria-label="Zoom In" class="md-fab md-primary md-mini" ng-click="zoom(-25)">
+                <md-tooltip md-direction="left">Zoom In</md-tooltip>
+                <md-icon>zoom_in</md-icon>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <md-button aria-label="Zoom Out" class="md-fab md-primary md-mini" ng-click="zoom(25)">
+                <md-tooltip md-direction="left">Zoom Out</md-tooltip>
+                <md-icon>zoom_out</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    <div id="toast-container" style="position: fixed; bottom: 0; z-index: 999; overflow: visible !important;"></div>
+</div>

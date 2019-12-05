@@ -1,0 +1,24 @@
+<div layout="row" ng-init="annotationImages()" layout-padding layout-wrap layout-fill>
+    <md-card id="imagesUnannotated" layout-align="start center" style="width: 300px;" ng-repeat="image in images_unannotated">
+        <md-card-header style="background-color: #FF1654; width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-title" md-truncate>{{ image.name }}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <img ng-src="static/cache/{{ image.name.split('.')[0] }}_low.jpg" class="md-card-image" ng-click="annotate(image, 0)"></img>
+        <md-button class="md-raised md-accent" type="button" aria-label="Delete" ng-show="deleteMode"
+                   ng-click="deleteImage($index, 0)">Delete
+        </md-button>
+    </md-card>
+    <md-card id="imagesAnnotated" layout-align="start center" style="width: 300px;" ng-repeat="image in images_annotated">
+        <md-card-header style="background-color: #9BC53D; width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-title" md-truncate>{{ image.name }}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <img ng-src="static/cache/{{ image.name.split('.')[0] }}_low.jpg" class="md-card-image" ng-click="annotate(image, 1)"></img>
+        <md-button class="md-raised md-accent" type="button" aria-label="Delete" ng-show="deleteMode"
+                   ng-click="deleteImage($index, 1)">Delete
+        </md-button>
+    </md-card>
+</div>

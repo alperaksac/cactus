@@ -1,0 +1,148 @@
+<div ng-init="init()" ng-controller="EditorController" style="position:fixed !important;">
+    <md-fab-speed-dial md-direction="up" class="md-scale md-fab-bottom-right md-hover-full" md-open="btn1"
+                       ng-mouseenter="btn1=true" ng-mouseleave="btn1=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button aria-label="Done" class="md-fab md-primary" ng-click="save(0)">
+                <md-tooltip md-direction="left">Done</md-tooltip>
+                <md-icon>done</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <!-- <md-button aria-label="Cancel" class="md-fab md-raised md-warn"
+                       ng-click="save(1)">
+                <md-tooltip md-direction="left">Save & Train</md-tooltip>
+                <md-icon>done_all</md-icon>
+            </md-button> -->
+            <md-button aria-label="Cancel" class="md-fab md-raised md-warn"
+                       ng-click="cancel()">
+                <md-tooltip md-direction="left">Cancel</md-tooltip>
+                <md-icon>clear</md-icon>
+            </md-button>
+            <md-button aria-label="Details" class="md-fab md-raised md-warn"
+                       ng-click="showDetails()" ng-show="compareMode">
+                <md-tooltip md-direction="left">Details</md-tooltip>
+                <md-icon aria-label="Details">pie_chart</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <md-fab-speed-dial md-direction="up" class="md-scale md-fab-bottom-left md-hover-full" md-open="btn5"
+                       ng-mouseenter="btn5=true" ng-mouseleave="btn5=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button class="md-fab md-primary">
+                <md-icon>add</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button aria-label="Cancel" class="md-fab md-raised md-warn"
+                       ng-click="predictModel(0)">
+                <md-tooltip md-direction="right">Nuclei Prediction</md-tooltip>
+                <md-icon>grain</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <md-fab-speed-dial md-direction="down" class="md-scale md-fab-top-right md-hover-full" md-open="btn2"
+                       ng-mouseenter="btn2=true" ng-mouseleave="btn2=false" style="position:fixed !important;"
+                       ng-hide="compareMode">
+        <md-fab-trigger>
+            <md-button aria-label="Delete" class="md-fab" ng-class="{true: 'md-warn', false: 'md-primary'}[deleteMode]"
+                       ng-click="deleteCircle()">
+                <md-tooltip md-direction="left">Delete</md-tooltip>
+                <md-icon>delete</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button aria-label="Hide/Show" class="md-fab md-mini md-raised md-warn"
+                       ng-click="setVisibility()">
+                <md-tooltip md-direction="left">Hide/Show</md-tooltip>
+                <md-icon ng-hide="visible">visibility</md-icon>
+                <md-icon ng-show="visible">visibility_off</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <div layout layout-align="center" ng-hide="compareMode" style="pointer-events: none;">
+        <div layout="row" style="position:fixed !important;margin-top: 20px;">
+            <md-button aria-label="Undo" class="md-fab md-mini md-warn" ng-click="undo()" ng-disabled="!canUndo"
+                       style="pointer-events: auto;">
+                <md-tooltip md-direction="left">Undo</md-tooltip>
+                <md-icon>undo</md-icon>
+            </md-button>
+            <md-fab-speed-dial md-direction="down" class="md-scale" md-open="btn4"
+                               ng-mouseenter="btn4=true" ng-mouseleave="btn4=false">
+                <md-fab-trigger>
+                    <md-button aria-label="Versions" class="md-fab md-primary">
+                        <md-tooltip md-direction="left">Versions</md-tooltip>
+                        <md-icon>history</md-icon>
+                    </md-button>
+                </md-fab-trigger>
+                <md-fab-actions>
+                    <md-button aria-label="{{ version.name }}" class="md-fab md-mini md-raised md-warn"
+                               ng-click="loadVersion(version.id)" ng-repeat="version in versions">
+                        <md-tooltip md-direction="left">{{ version.name }}</md-tooltip>
+                        <span class="md-caption">{{ version.abbr }}</span>
+                    </md-button>
+                </md-fab-actions>
+            </md-fab-speed-dial>
+            <md-button aria-label="Redo" class="md-fab md-mini md-warn" ng-click="redo()" ng-disabled="!canRedo"
+                       style="pointer-events: auto;">
+                <md-tooltip md-direction="right">Redo</md-tooltip>
+                <md-icon>redo</md-icon>
+            </md-button>
+        </div>
+    </div>
+
+    <md-fab-speed-dial md-direction="down" class="md-scale md-fab-top-left md-hover-full" md-open="btn3"
+                       ng-mouseenter="btn3=true" ng-mouseleave="btn3=false" style="position:fixed !important;"
+                       ng-hide="compareMode">
+        <md-fab-trigger>
+            <md-button class="md-fab">
+                <md-icon>palette</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button aria-label="Mitosis" class="md-fab md-raised md-mini"
+                       ng-click="setColor(1)" style="background-color: #5BC0EB">
+                <md-tooltip md-direction="right">Mitosis</md-tooltip>
+                <span style="color: black">{{ mitosis }}</span>
+            </md-button>
+            <md-button aria-label=">Non-Mitosis" class="md-fab md-raised md-mini"
+                       ng-click="setColor(2)" style="background-color: #FDE74C">
+                <md-tooltip md-direction="right">Non-Mitosis</md-tooltip>
+                <span style="color: black">{{ non_mitosis }}</span>
+            </md-button>
+            <md-button aria-label="Apoptosis" class="md-fab md-raised md-mini"
+                       ng-click="setColor(3)" style="background-color: #9BC53D">
+                <md-tooltip md-direction="right">Apoptosis</md-tooltip>
+                <span style="color: black">{{ apoptosis }}</span>
+            </md-button>
+            <md-button aria-label="Tumor Cells" class="md-fab md-raised md-mini"
+                       ng-click="setColor(4)" style="background-color: #FA7921">
+                <md-tooltip md-direction="right">Tumor Cells</md-tooltip>
+                <span style="color: white">{{ tumor }}</span>
+            </md-button>
+            <md-button aria-label="Non-Tumor" class="md-fab md-raised md-mini"
+                       ng-click="setColor(5)" style="background-color: #FF1654">
+                <md-tooltip md-direction="right">Non-Tumor</md-tooltip>
+                <span style="color: white">{{ non_tumor }}</span>
+            </md-button>
+            <md-button aria-label="Lumen" class="md-fab md-raised md-mini"
+                       ng-click="setColor(6)" style="background-color: #2364AA">
+                <md-tooltip md-direction="right">Lumen</md-tooltip>
+                <span style="color: white">{{ lumen }}</span>
+            </md-button>
+            <md-button aria-label="Non-Lumen" class="md-fab md-raised md-mini"
+                       ng-click="setColor(7)" style="background-color: #2B2D42">
+                <md-tooltip md-direction="right">Non-Lumen</md-tooltip>
+                <span style="color: white">{{ non_lumen }}</span>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <canvas id="imageCanvas" layout-fill></canvas>
+</div>

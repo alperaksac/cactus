@@ -1,0 +1,124 @@
+<div ng-controller="DashboardController" ng-init="dashboard()" ng-cloak>
+    <div ng-controller="IntroController">
+        <md-toolbar class="md-whiteframe-1dp">
+            <div class="md-toolbar-tools">
+                <md-button id="navButton" class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+                    <md-icon>menu</md-icon>
+                </md-button>
+                <h2 flex md-truncate>{{ selectedIndex }}</h2>
+                <span flex></span>
+                <div id="workspace" layout="column">
+                    <span class="md-body-2" ng-show="selectedDatasetName">Dataset:
+                        <small class="md-caption">{{ selectedDatasetName }}</small>
+                    </span>
+                    <span class="md-body-2" ng-show="$root.selectedIndex==='Grading' && selectedAnnotationCreatedBy">Annotated By:
+                        <small class="md-caption">{{ selectedAnnotationCreatedBy }}</small>
+                    </span>
+                </div>
+                <md-menu id="accountInfo" md-position-mode="target-right target">
+                    <md-button aria-label="Open Menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+                        <md-icon md-menu-origin>more_vert</md-icon>
+                    </md-button>
+                    <md-menu-content width="3">
+                        <md-menu-item ng-controller="LogoutController">
+                            <md-button ng-click="logout()">
+                                <div layout="row" flex>
+                                    <p flex>Account</p>
+                                    <md-icon style="margin: auto 3px auto 0;" md-menu-align-target>account_circle</md-icon>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-controller="LogoutController">
+                            <md-button ng-click="logout()">
+                                <div layout="row" flex>
+                                    <p flex>Logout</p>
+                                    <md-icon style="margin: auto 3px auto 0;" md-menu-align-target>exit_to_app</md-icon>
+                                </div>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+        </md-toolbar>
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+            <md-toolbar id="account" class="md-theme-light md-whiteframe-4dp md-tall" layout-align="end end">
+                <div class="md-toolbar-tools" style="margin-bottom: -30px" layout layout-padding>
+                    <div>
+                        <md-icon>face</md-icon>
+                        <span class="md-body-2">{{ username }}</span>
+                        <span flex></span>
+                    </div>
+                </div>
+                <div class="md-toolbar-tools" layout layout-padding>
+                    <span class="md-caption">Last Login: {{ lastLogin | date:'medium' }}</span>
+                </div>
+            </md-toolbar>
+
+            <md-content flex layout-padding>
+                <div layout="column" layout-align="space-between">
+                    <md-button ng-click="navSelect('Annotation')" ui-sref="dashboard.annotation" ng-class="{'md-primary md-raised': selectedIndex==='Annotation'}"
+                        style="text-align:left" ng-show="$root.selectedDataset!='None' && $root.role<3">
+                        <md-icon>palette</md-icon>
+                        <span>Annotation</span>
+                    </md-button>
+                    <md-button ng-click="navSelect('Grading')" ui-sref="dashboard.grading" ng-class="{'md-primary md-raised': selectedIndex==='Grading'}"
+                        style="text-align:left" ng-show="$root.selectedDataset!='None'">
+                        <md-icon>bubble_chart</md-icon>
+                        <span>Grading</span>
+                    </md-button>
+                    <md-divider></md-divider>
+                    <md-button ng-click="navSelect('Datasets')" ui-sref="dashboard.datasets" ng-class="{'md-primary md-raised': selectedIndex==='Datasets'}"
+                        style="text-align:left" ng-show="$root.role<3">
+                        <md-icon>cloud</md-icon>
+                        <span>Datasets</span>
+                    </md-button>
+                    <md-button ng-click="navSelect('Models')" ui-sref="dashboard.models" ng-class="{'md-primary md-raised': selectedIndex==='Models'}"
+                        style="text-align:left" ng-show="$root.role<3">
+                        <md-icon>cloud</md-icon>
+                        <span>Models</span>
+                    </md-button>
+                    <md-button ng-click="navSelect('Authors')" ui-sref="dashboard.authors" ng-class="{'md-primary md-raised': selectedIndex==='Authors'}"
+                        style="text-align:left" ng-show="$root.role<3">
+                        <md-icon>face</md-icon>
+                        <span>Authors</span>
+                    </md-button>
+                    <!--
+                <md-list-item>
+                    <md-button ng-click="" class="md-list-item-content" ng-click="navSelect('Compare')"
+                               ng-class="{'md-primary md-raised': selectedIndex==='Compare'}" style="text-align:left">
+                        <md-icon>compare</md-icon>
+                        <span class="md-inline-list-icon-label">Compare</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ng-click="" class="md-list-item-content">
+                        <md-icon>forum</md-icon>
+                        <span class="md-inline-list-icon-label">Forums</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button ng-click="" class="md-list-item-content">
+                        <md-icon>people</md-icon>
+                        <span class="md-inline-list-icon-label">Social</span>
+                    </md-button>
+                </md-list-item>-->
+                    <md-divider></md-divider>
+                    <md-button ng-click="navSelect('Bin')" ui-sref="dashboard.bin" ng-class="{'md-primary md-raised': selectedIndex==='Bin'}"
+                        style="text-align:left" ng-show="$root.selectedDataset!='None' && $root.role<3">
+                        <md-icon>delete</md-icon>
+                        <span>Bin</span>
+                    </md-button>
+                    <md-divider></md-divider>
+                    <md-button ng-click="startIntro()" class="md-list-item-content" style="text-align:left">
+                        <md-icon>help_outline</md-icon>
+                        <span>Help</span>
+                        <!-- <span class="md-inline-list-icon-label" hide>Help</span> -->
+                    </md-button>
+                </div>
+            </md-content>
+        </md-sidenav>
+
+        <div ui-view="child_1"></div>
+    </div>
+</div>

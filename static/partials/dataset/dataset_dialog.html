@@ -1,0 +1,38 @@
+<md-dialog>
+    <md-dialog-content class="md-dialog-content">
+
+        <h2 class="md-title">Add Dataset</h2>
+
+        <!-- <p ng-if="dataset.form.$submitted && dataset.form.$invalid" class="md-warn" layout="row" layout-align="start center">
+            <i class="material-icons">error_outline</i>
+            <span>&nbsp; All fields are required.</span>
+        </p> -->
+        <form name="datasetForm" ng-submit="submitDataset()">
+            <div layout="column">
+                <md-input-container flex>
+                    <label>Dataset Name</label>
+                    <input name="name" ng-model="$root.selected.name" type="text" required>
+                    <div ng-messages="datasetForm.name.$error" role="alert">
+                        <div ng-message="required">Please enter the dataset name.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Description</label>
+                    <textarea name="description" ng-model="$root.selected.description" rows="1" md-select-on-focus required></textarea>
+                    <div ng-messages="datasetForm.description.$error" role="alert">
+                        <div ng-message="required">Please enter the dataset description.</div>
+                    </div>
+                </md-input-container>
+            </div>
+
+            <div class="md-dialog-actions">
+                <md-button class="md-primary" type="submit" ng-disabled="datasetForm.$invalid" ng-show="$root.selected._id == null">Add Dataset</md-button>
+                <md-button class="md-primary" type="submit" ng-disabled="datasetForm.$invalid" ng-show="$root.selected._id != null" >Update Dataset</md-button>
+                <md-button class="md-primary" ng-click="cancel()">Cancel</md-button>
+            </div>
+        </form>
+    </md-dialog-content>
+
+
+
+</md-dialog>

@@ -1,0 +1,9 @@
+tornado
+pymongo
+flask
+opencv-python
+numpy
+matplotlib
+flask_pymongo
+flask_mail
+flask_compress

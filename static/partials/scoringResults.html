@@ -1,0 +1,116 @@
+<div ng-controller="CompareScoreController" ng-init="init()">
+    <div flex layout-padding layout-wrap layout-fill>
+        <md-card ng-show="totalScoringResults">
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <span>Correlation Between All Scorers</span>
+                    <div flex></div>
+                </div>
+            </md-toolbar>
+
+            <md-table-container>
+                <table md-table>
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column md-numeric>Histologic Type %</th>
+                            <th md-column md-numeric>Initial Score %</th>
+                            <th md-column md-numeric>Mitosis %</th>
+                            <th md-column md-numeric>Nuclear %</th>
+                            <th md-column md-numeric>Tubular %</th>
+                            <th md-column md-numeric>Total %</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="score in totalScoringResults">
+                            <td ng-value="histo_sim" md-cell>{{score.histo_sim*100 | number: 2}}</td>
+                            <td ng-value="initial_sim" md-cell>{{score.initial_sim*100 | number: 2}}</td>
+                            <td ng-value="mitosis_sim" md-cell>{{score.mitosis_sim*100 | number: 2}}</td>
+                            <td ng-value="tubular_sim" md-cell>{{score.tubular_sim*100 | number: 2}}</td>
+                            <td ng-value="nuclear_sim" md-cell>{{score.nuclear_sim*100 | number: 2}}</td>
+                            <td ng-value="total_sim" md-cell>{{score.total_sim*100 | number: 2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-card>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">
+                <div class="md-toolbar-tools">
+                    <span>Scoring Results</span>
+                    <div flex></div>
+                    <md-button class="md-icon-button" ng-click="filter.show = true">
+                        <md-icon>filter_list</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show && !selected.length">
+                <div class="md-toolbar-tools">
+                    <span flex></span>
+                    <form name="filterForm">
+                        <md-input-container md-no-float md-icon-right style="margin-top:30px;">
+                            <md-icon>search</md-icon>
+                            <input type="text" ng-model="query.filter" placeholder="search">
+                        </md-input-container>
+                    </form>
+                    <md-button class="md-icon-button" ng-click="removeFilter()">
+                        <md-icon>close</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-toolbar class="md-table-toolbar" ng-show="selected.length" style="color: #1e88e5; background-color: #e3f2fd;">
+                <div class="md-toolbar-tools">
+                    <span>{{selected.length}} {{selected.length > 1 ? 'scores' : 'score'}} selected</span>
+                    <div flex></div>
+                    <md-button ng-click="seeDetails()" ng-show="selected.length>0&&selected.length<6">
+                        See Details
+                        <md-icon>chevron_right</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-table-container>
+                <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+                    <thead md-head md-order="query.order">
+                        <tr md-row>
+                            <th md-column md-order-by="created_by">
+                                <span>Scoring Created By</span>
+                            </th>
+                            <th md-column md-numeric md-order-by="histo_sim">Histologic Type %</th>
+                            <th md-column md-numeric md-order-by="initial_sim">Initial Score %</th>
+                            <th md-column md-numeric md-order-by="mitosis_sim">Mitosis %</th>
+                            <th md-column md-numeric md-order-by="tubular_sim">Nuclear %</th>
+                            <th md-column md-numeric md-order-by="nuclear_sim">Tubular %</th>
+                            <th md-column md-numeric md-order-by="total_sim">Total %</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="user.users[0]._id.$oid" md-select-id="user.users[0]._id.$oid" md-auto-select ng-repeat="user in scoringResults | 
+                        filter: query.filter | orderBy: query.order | limitTo: query.limit : (query.page-1) * query.limit">
+                            <td ng-value="created_by" md-cell>{{user.users[0].user.slice(-1)[0].firstname + ' ' + user.users[0].user.slice(-1)[0].lastname}}</td>
+                            <td ng-value="histo_sim" md-cell>{{user.similarity.histo_sim*100 | number: 2}}</td>
+                            <td ng-value="initial_sim" md-cell>{{user.similarity.initial_sim*100 | number: 2}}</td>
+                            <td ng-value="mitosis_sim" md-cell>{{user.similarity.mitosis_sim*100 | number: 2}}</td>
+                            <td ng-value="tubular_sim" md-cell>{{user.similarity.tubular_sim*100 | number: 2}}</td>
+                            <td ng-value="nuclear_sim" md-cell>{{user.similarity.nuclear_sim*100 | number: 2}}</td>
+                            <td ng-value="total_sim" md-cell>{{user.similarity.total_sim*100 | number: 2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <md-table-pagination md-limit="query.limit" md-limit-options="[10, 25, 50]" md-page="query.page" md-total="{{scoringResults.length}}"
+                md-page-select md-boundary-links></md-table-pagination>
+        </md-card>
+    </div>
+    <md-fab-speed-dial md-direction="up" class="md-scale md-fab-bottom-right md-hover-full" md-open="btn" ng-mouseenter="btn=true"
+        ng-mouseleave="btn=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button aria-label="Back" class="md-fab md-primary" ng-click="back('grading')">
+                <md-tooltip md-direction="left">Back</md-tooltip>
+                <md-icon>arrow_back</md-icon>
+            </md-button>
+        </md-fab-trigger>
+    </md-fab-speed-dial>
+</div>

@@ -1,0 +1,35 @@
+<div ng-controller="BinController">
+    <div layout="row" layout-padding layout-wrap layout-fill>
+        <md-card layout-align="start center" style="width: 300px;" ng-repeat="image in images">
+            <md-card-header>
+                <md-card-header-text>
+                    <span class="md-title" md-truncate>{{ image.name }}</span>
+                </md-card-header-text>
+            </md-card-header>
+            <img ng-src="static/cache/{{ image.name.split('.')[0] }}_low.jpg" class="md-card-image"></img>
+            <p class="md-body-2"><span style="color:#FF0000">Deleted by: </span><small class="md-caption">{{ image.users[0].user.slice(-1)[0].firstname + ' ' + image.users[0].user.slice(-1)[0].lastname }}</small></p>
+            <div layout="row" layout-align="center">                    
+                <md-button class="md-raised md-primary" type="button" aria-label="Restore"
+                           ng-click="restore(image)">Restore
+                </md-button>
+            </div>
+        </md-card>
+    </div>
+
+    <md-fab-speed-dial md-direction="up" class="md-scale md-fab-bottom-right md-hover-full" md-open="isOpen"
+                       ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button class="md-fab">
+                <md-icon>add</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button aria-label="Restore" class="md-fab md-raised md-mini md-warn"
+                       ng-click="restoreAll($event)">
+                <md-tooltip md-direction="left">Restore All</md-tooltip>
+                <md-icon aria-label="Restore">restore</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+</div>

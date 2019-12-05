@@ -1,0 +1,79 @@
+<div layout="row" layout-align="center center" layout-padding layout-wrap>
+    <md-card layout-align="center center" flex="100" flex-gt-xs="70">
+        <img ng-src="static/cache/{{ $root.selected.name.split('.')[0] }}.jpg" class="md-card-image"></img>
+    </md-card>
+    <md-card id="histoType" layout-align="center center" flex="100" flex-gt-xs="70">
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-headline">Histologic Types</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="column">
+            <p class="md-title">Please choose the histologic type of the breast cancer</p>
+            <md-radio-group ng-model="$root.histologicType" ng-change="setHistologicType()" ng-disabled="scoredDone">
+                <md-radio-button value="1">Invasive Duct Carcinoma
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">Invasive Lobular Carcinoma
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">Mucinous Breast Carcinoma
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="4">Tubular Breast Carcinoma
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 4" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <!-- <md-radio-button value="5">Papillary Breast Cancer
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 5" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button> -->
+                <md-radio-button value="5">Undifferentiated Carcinoma
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 5" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="6">Other Breast Carcinoma
+                    <span ng-repeat="s in $root.compareScores.scores.histologicType track by $index">
+                        <small ng-if="s == 6" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+    <md-card id="initialScore" layout-align="center center" flex="100" flex-gt-xs="70" ng-show="$root.histologicType == 1 || 
+                                                                                                $root.histologicType == 6 || compare">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[$root.initialScore]}" style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Initial Cancer Grade</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="$root.initialScore" ng-disabled="scoredDone">
+                <md-radio-button value="1">Grade 1
+                    <span ng-repeat="s in $root.compareScores.scores.initialScore track by $index">
+                        <small ng-if="s == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">Grade 2
+                    <span ng-repeat="s in $root.compareScores.scores.initialScore track by $index">
+                        <small ng-if="s == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">Grade 3
+                    <span ng-repeat="s in $root.compareScores.scores.initialScore track by $index">
+                        <small ng-if="s == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+</div>

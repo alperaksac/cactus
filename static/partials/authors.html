@@ -1,0 +1,72 @@
+<div ng-controller="AuthorController" ng-init="load(1)">
+    <div flex layout-padding layout-wrap layout-fill>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
+                <div class="md-toolbar-tools">
+                    <span>Authors</span>
+                    <div flex></div>
+                    <md-button class="md-icon-button" ng-click="filter.show = true">
+                        <md-icon>filter_list</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
+                <div class="md-toolbar-tools">
+                    <div layout="row" layout-align="center center">
+                        <md-switch ng-model="query.coauthor" aria-label="Coauthors">
+                            Search in Coauthors
+                        </md-switch>
+                    </div>
+                    <span flex></span>
+                    <form name="filterForm">
+                        <md-input-container md-no-float md-icon-right style="margin-top:30px;">
+                            <md-icon>search</md-icon>
+                            <input type="text" ng-model="query.filter" placeholder="search" ng-change="load(0)" ng-model-options="{debounce:1000}">
+                        </md-input-container>
+                    </form>
+                    <md-button class="md-icon-button" ng-click="removeFilter()">
+                        <md-icon>close</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-table-container>
+                <table md-table md-progress="promise">
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column><span>Author Name</span></th>
+                            <th md-column><span>Research Fields</span></th>
+                            <th md-column><span># of Papers</span></th>
+                            <th md-column><span>h-index</span></th>
+                            <th md-column>See Networks</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="author in authors">
+                            <td md-cell>{{author.name}}</td>
+                            <td md-cell>
+                                <md-chips ng-model="author.mesh_headings_freq" readonly="true">
+                                    <md-chip-template ng-show="$index < 5">
+                                        {{ $chip[0] }}
+                                    </md-chip-template>
+                                </md-chips>
+                            </td>
+                            <td md-cell>{{author.publications.length}}</td>
+                            <td md-cell>{{author.h_index}}</td>
+                            <td md-cell>
+                                <md-button ng-click="showNetwork(author)" class="md-raised md-primary">
+                                    <md-icon>chevron_right</md-icon>
+                                    <span>Select</span>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <md-table-pagination md-limit="query.limit" md-limit-options="[10, 25, 50, 100]" md-page="query.page" md-total="{{count}}"
+                md-page-select></md-table-pagination>
+        </md-card>
+    </div>
+</div>

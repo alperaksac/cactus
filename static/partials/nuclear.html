@@ -1,0 +1,228 @@
+<div layout="row" layout-align="center center" layout-padding layout-wrap layout-fill>
+
+    <md-card id="caseImage" layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header>
+            <md-card-header-text>
+                <span class="md-title" md-truncate>Case Image</span>
+            </md-card-header-text>
+        </md-card-header>
+        <canvas id="imageCanvas"></canvas>
+    </md-card>
+
+    <md-card id="referenceImages" layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-tabs md-dynamic-height md-border-bottom md-autoselect md-swipe-content style="width: 100%;">
+            <md-tab label="Normal {{$index+1}}" ng-repeat="tab in tabs">
+                <div layout="row" layout-align="center center" style="overflow: hidden;">
+                    <canvas id="imageCanvas{{$index}}"></canvas>
+                </div>
+            </md-tab>
+        </md-tabs>
+    </md-card>
+
+    <md-card id="nuclear1" layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[nuclearScore['data'][0].score]}"
+            style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Size of nuclei</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="nuclearScore['data'][0].score" ng-change="calculateOverallScore()" ng-disabled="scoredDone">
+
+                <md-radio-button value="1">0 to 30% of tumour nuclei are bigger than normal nuclei
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[0] == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">30 to 60% of tumour nuclei are bigger than normal nuclei
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[0] == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">more than 60% of tumour nuclei are bigger than normal nuclei
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[0] == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="0">Cannot assess
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[0] == 0" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+    <md-card layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[nuclearScore['data'][1].score]}"
+            style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Size of nucleoli</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="nuclearScore['data'][1].score" ng-change="calculateOverallScore()" ng-disabled="scoredDone">
+
+                <md-radio-button value="1">0 to 30% of tumour cells have nucleoli size bigger than nucleoli of normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[1] == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">30 to 60% of tumour cells have nucleoli size bigger than nucleoli of normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[1] == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">more than 60% of tumour cells have nucleoli size bigger than nucleoli of normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[1] == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="0">Cannot assess
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[1] == 0" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+    <md-card layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[nuclearScore['data'][2].score]}"
+            style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Density of chromatin</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="nuclearScore['data'][2].score" ng-change="calculateOverallScore()" ng-disabled="scoredDone">
+
+                <md-radio-button value="1">0 to 30% of tumour cells have chromatin density higher than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[2] == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">30 to 60% of tumour cells have chromatin density higher than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[2] == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">more than 60% of tumour cells have chromatin density higher than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[2] == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="0">Cannot assess
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[2] == 0" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+    <md-card layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[nuclearScore['data'][3].score]}"
+            style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Thickness of nuclear membrane</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="nuclearScore['data'][3].score" ng-change="calculateOverallScore()" ng-disabled="scoredDone">
+
+                <md-radio-button value="1">0 to 30% of tumour cells have nuclear membrane thickness higher than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[3] == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">30 to 60% of tumour cells have nuclear membrane thickness higher than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[3] == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">more than 60% of tumour cells have nuclear membrane thickness higher than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[3] == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="0">Cannot assess
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[3] == 0" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+    <md-card layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[nuclearScore['data'][4].score]}"
+            style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Regularity of nuclear contour</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="nuclearScore['data'][4].score" ng-change="calculateOverallScore()" ng-disabled="scoredDone">
+
+                <md-radio-button value="1">0 to 30% of tumour cells have nuclear contour more irregular than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[4] == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">30 to 60% of tumour cells have nuclear contour more irregular than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[4] == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">more than 60% of tumour cells have nuclear contour more irregular than normal cells
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[4] == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="0">Cannot assess
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[4] == 0" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+    <md-card layout-align="center center" flex="100" flex-gt-sm="40">
+        <md-card-header ng-style="{'background-color': {'1': '#9BC53D', '2': '#00A6ED', '3': '#DD1C1A'}[nuclearScore['data'][5].score]}"
+            style="width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-headline">Anisonucleosis (size variation within a population of nuclei)</span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-content layout="row">
+            <md-radio-group ng-model="nuclearScore['data'][5].score" ng-change="calculateOverallScore()" ng-disabled="scoredDone">
+
+                <md-radio-button value="1">Within the population of tumour cells, all nuclei are regular and/or nuclei size is not bigger than twice
+                    the size of normal epithelial cell nuclei
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[5] == 1" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="2">For cases that are not fitting neither with case 1 nor with case 3
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[5] == 2" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="3">Within the population of tumour cells, either nuclei size are irregular or nuclei size is bigger than 3 times
+                    the size of normal epithelial cell nuclei
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[5] == 3" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+                <md-radio-button value="0">Cannot assess
+                    <span ng-repeat="s in $root.compareScores.scores.nuclear track by $index">
+                        <small ng-if="s.score[5] == 0" style="color: red">{{$root.users[$index]}};</small>
+                    </span>
+                </md-radio-button>
+
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
+</div>

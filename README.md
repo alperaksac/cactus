@@ -1,0 +1,4 @@
+# CACTUS
+CACTUS: Cancer Image Annotating, Calibrating, Testing, Understanding and Sharing
+
+ Develop CACTUS (Cancer Image Annotating, Calibrating, Testing, Understanding and Sharing) as a novel web application for image archiving, annotation, grading, distribution, networking and evaluation. This helps pathologists to avoid unintended mistakes leading to quality assurance, teaching and evaluation in anatomical pathology. Effectiveness of the tool has been demonstrated by assessing pathologist performance in the grading of breast carcinoma and by comparing inter/intra-observer assessment of grading criteria amongst pathologists reviewing digital breast cancer images. Reproducibility has been assessed by inter-observer (kappa statistics) and intra-observer (intraclass correlation coefficient) concordance rates.

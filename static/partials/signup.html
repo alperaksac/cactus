@@ -1,0 +1,60 @@
+<div ng-controller="SignupController" ng-cloak>
+    <form name="signupForm" ng-submit="signup()">
+        <md-content class="md-padding" layout="row" layout-align="space-around">
+            <md-card flex-gt-sm="50" flex-gt-md="33" md-whiteframe="7" flex>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2><span>SIGN UP</span></h2>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                    <md-input-container class="md-block">
+                        <label>First Name:</label>
+                        <input name="firstname" ng-model="user.firstname" type="text" required>
+                        <div ng-messages="signupForm.firstname.$error" role="alert">
+                            <div ng-message="required">Please enter your first name.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Last Name:</label>
+                        <input name="lastname" ng-model="user.lastname" type="text" required>
+                        <div ng-messages="signupForm.lastname.$error" role="alert">
+                            <div ng-message="required">Please enter your last name.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Email:</label>
+                        <input name="email" ng-model="user.email" type="email" ng-change="signupForm.signupServerErrors.signupFailed = false" required>
+                        <div ng-messages="signupForm.email.$error" role="alert">
+                            <div ng-message="required">Please enter your email.</div>
+                            <div ng-message="email">Your email is invalid.</div>
+                        </div>
+                        <div ng-messages="signupForm.signupServerErrors" role="alert" md-auto-hide="false">
+                            <div ng-message="signupFailed">{{ response }}</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block" ng-show="!signupForm.email.$error.required && !signupForm.email.$error.email && !signupForm.signupServerErrors.signupFailed">
+                        <label>Re-enter Email:</label>
+                        <input name="email2" ng-model="user.email2" type="email" ng-pattern="(user.email)" required>
+                        <div ng-messages="signupForm.email2.$error" role="alert">
+                            <div ng-message="email">Your email is invalid.</div>
+                            <div ng-message="required">Please enter your email.</div>
+                            <div ng-message="pattern">Your email doesn't match.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Password:</label>
+                        <input name="password" ng-model="user.password" type="password" required>
+                        <div ng-messages="signupForm.password.$error" role="alert" multiple="">
+                            <div ng-message="required">Please enter your password.</div>
+                        </div>
+                    </md-input-container>
+                    <md-card-actions layout="row" layout-align="center">
+                        <md-button name="submit" ng-disabled="signupForm.$invalid" class="md-raised md-primary" type="submit" aria-label="Done">DONE</md-button>
+                        <md-button class="md-raised" aria-label="Cancel" ng-click="cancel()">Cancel</md-button>
+                    </md-card-actions>
+                </md-card-content>
+            </md-card>
+        </md-content>
+    </form>
+</div>

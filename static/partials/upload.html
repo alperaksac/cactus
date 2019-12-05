@@ -1,0 +1,33 @@
+<md-dialog aria-label="Upload">
+    <md-toolbar>
+        <div class="md-toolbar-tools md-whiteframe-4dp">
+            <h2>Upload Images ...</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content layout-padding>
+
+        <form name="upload" ng-submit="uploadImages()" layout="column" flex>
+
+            <lf-ng-md-file-input name="files" lf-files="files" lf-api="lfApi" accept="image/tif" lf-totalsize="100MB" lf-mimetype="image/tif"
+                drag multiple progress></lf-ng-md-file-input>
+            <div layout="row" layout-sm="column" layout-align="center center">
+                <md-progress-circular md-mode="indeterminate" class="md-warn" ng-show="isLoading" style="z-index:5;position:fixed !important;"></md-progress-circular>
+            </div>
+            
+            <div ng-messages="upload.files.$error" style="color:red;">
+                <div ng-message="totalsize">Total size too large, Max: 100MB. Remove them and add less items.</div>
+                <div ng-message="mimetype">TIF images are only allowed.</div>
+            </div>
+
+            <md-button type="submit" ng-disabled="upload.$invalid" class="md-raised md-primary">UPLOAD
+            </md-button>
+        </form>
+
+
+    </md-dialog-content>
+</md-dialog>

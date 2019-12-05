@@ -1,0 +1,39 @@
+<div ng-controller="HomeController">
+
+    <div ui-view="child_2"></div>
+
+    <md-fab-speed-dial id="controlButtons" md-direction="up" class="md-scale md-fab-bottom-right md-hover-full" md-open="isOpen"
+        ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button class="md-fab">
+                <md-icon>add</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button aria-label="Upload" class="md-fab md-raised md-mini md-warn md-hue-2" ng-click="upload($event)" ng-show="$root.selectedIndex==='Annotation'">
+                <md-tooltip md-direction="left">Upload</md-tooltip>
+                <md-icon aria-label="Upload">file_upload</md-icon>
+            </md-button>
+            <md-button aria-label="Delete" class="md-fab md-raised md-mini md-warn md-hue-2" ng-click="delete()" ng-show="$root.selectedIndex==='Annotation'">
+                <md-tooltip md-direction="left">Delete</md-tooltip>
+                <md-icon aria-label="Delete">delete</md-icon>
+            </md-button>
+            <md-button aria-label="Select Annotation" class="md-fab md-raised md-mini md-warn md-hue-2" ui-sref="dashboard.annotations"
+                ng-show="$root.selectedIndex==='Grading'">
+                <md-tooltip md-direction="left">Select Annotation</md-tooltip>
+                <md-icon aria-label="Select Annotation">palette</md-icon>
+            </md-button>
+            <md-button aria-label="Annotation Details" class="md-fab md-raised md-mini md-warn md-hue-2" ng-click="showCharts()">
+                <md-tooltip md-direction="left">Annotation Details</md-tooltip>
+                <md-icon aria-label="Annotation Details">pie_chart</md-icon>
+            </md-button>
+            <md-button aria-label="Scoring Results" class="md-fab md-raised md-mini md-warn md-hue-2" ng-click="seeResults()" ng-show="$root.selectedIndex==='Grading' && images_unscored.length == 0 && 
+                                                            images_unfinished.length == 0">
+                <md-tooltip md-direction="left">Scoring Results</md-tooltip>
+                <md-icon aria-label="Scoring Results">compare</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    <div id="toast-container" style="position: fixed; bottom: 0; z-index: 999; overflow: visible !important;"></div>
+</div>

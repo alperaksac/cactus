@@ -1,0 +1,54 @@
+<style>
+    .svg-container {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        padding-bottom: 100%;
+        /* aspect ratio */
+        vertical-align: top;
+        overflow: hidden;
+    }
+</style>
+<div ng-controller="NetworkController" style="position:fixed !important;" ng-init="init()">
+    <md-fab-speed-dial class="md-fab-bottom-right" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button aria-label="Go Back" class="md-fab md-primary" ng-click="back()">
+                <md-tooltip md-direction="left">Go Back</md-tooltip>
+                <md-icon>arrow_back</md-icon>
+            </md-button>
+        </md-fab-trigger>
+    </md-fab-speed-dial>
+
+    <md-fab-speed-dial md-direction="right" class="md-scale md-fab-bottom-left" md-open="btn2" ng-mouseenter="btn2=true" ng-mouseleave="btn2=false"
+        style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button aria-label="Coauthor Network" class="md-fab md-primary" ng-click="init()">
+                <md-tooltip md-direction="top">Coauthor Network</md-tooltip>
+                <md-icon>people</md-icon>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <md-button aria-label="Communities" class="md-fab md-mini md-raised md-warn" ng-click="show_communities()">
+                <md-tooltip md-direction="top">Communities</md-tooltip>
+                <md-icon>bubble_chart</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <md-fab-speed-dial md-direction="right" class="md-scale md-fab-bottom-left" md-open="btn3" ng-mouseenter="btn3=true" ng-mouseleave="btn3=false"
+        style="position:fixed !important; margin-bottom: 70px;">
+        <md-fab-trigger>
+            <md-button aria-label="Coauthor Network" class="md-fab md-primary" ng-click="show_areas()">
+                <md-tooltip md-direction="top">Research Fields Word Cloud</md-tooltip>
+                <md-icon>filter_drama</md-icon>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <md-button aria-label="Clusters" class="md-fab md-mini md-raised md-warn" ng-click="show_areas()">
+                <md-tooltip md-direction="top">Show Clusters</md-tooltip>
+                <md-icon>bubble_chart</md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+    <div class="svg-container"></div>
+</div>

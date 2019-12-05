@@ -1,0 +1,30 @@
+<div ng-controller="ResetController" ng-cloak>
+    <form name="resetForm" ng-submit="forgot()">
+        <md-content class="md-padding" layout="row" layout-align="space-around">
+            <md-card flex-gt-sm="50" flex-gt-md="33" md-whiteframe="7" flex>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2><span>Find Your Account</span></h2>
+                    </div>
+                </md-toolbar>
+                <md-card-content>
+                    <md-input-container class="md-block">
+                        <label>Email:</label>
+                        <input name="email" ng-model="user.email" type="email" ng-change="resetForm.resetServerErrors.signupFailed = false" required>
+                        <div ng-messages="resetForm.email.$error" role="alert">
+                            <div ng-message="required">Please enter your email.</div>
+                            <div ng-message="email">Your email is invalid.</div>
+                        </div>
+                        <div ng-messages="resetForm.resetServerErrors" role="alert" md-auto-hide="false">
+                            <div ng-message="signupFailed">{{ response }}</div>
+                        </div>
+                    </md-input-container>
+                    <md-card-actions layout="row" layout-align="center">
+                        <md-button name="submit" ng-disabled="resetForm.$invalid" class="md-raised md-primary" type="submit" aria-label="Search Account">Search</md-button>
+                        <md-button class="md-raised" aria-label="Cancel" ng-click="cancel()">Cancel</md-button>
+                    </md-card-actions>
+                </md-card-content>
+            </md-card>
+        </md-content>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+<div layout="row" ng-init="scoringImages()" layout-padding layout-wrap layout-fill>
+    <md-card id="imagesUnscored" layout-align="start center" style="width: 300px;" ng-repeat="image in images_unscored" ng-click="grading(image, 0)">
+        <md-card-header style="background-color: #FF1654; width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-title" md-truncate>{{ image.name }}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <img ng-src="static/cache/{{ image.name.split('.')[0] }}_low.jpg" class="md-card-image"></img>
+    </md-card>
+    <md-card id="imagesUnfinished" layout-align="start center" style="width: 300px;" ng-repeat="image in images_unfinished" ng-click="grading(image, 1)">
+        <md-card-header style="background-color: #1e88e5; width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-title" md-truncate>{{ image.name }}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <img ng-src="static/cache/{{ image.name.split('.')[0] }}_low.jpg" class="md-card-image"></img>
+        <md-button class="md-raised md-accent" type="button" aria-label="Delete" ng-show="deleteMode" ng-click="deleteScore($index, 0)">Delete
+        </md-button>
+    </md-card>
+    <md-card id="imagesScored" layout-align="start center" style="width: 300px;" ng-repeat="image in images_scored" ng-click="grading(image, 2)">
+        <md-card-header style="background-color: #9BC53D; width: 100%; text-align: center">
+            <md-card-header-text>
+                <span class="md-title">{{ image.name }}</span>
+            </md-card-header-text>
+        </md-card-header>
+        <img ng-src="static/cache/{{ image.name.split('.')[0] }}_low.jpg" class="md-card-image"></img>
+        <md-button class="md-raised md-accent" type="button" aria-label="Delete" ng-show="deleteMode" ng-click="deleteScore($index, 1)">Delete
+        </md-button>
+    </md-card>
+</div>

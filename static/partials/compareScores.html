@@ -1,0 +1,90 @@
+<div ng-controller="CompareScoreController">
+    <div flex layout-padding layout-wrap layout-fill>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <span>Comparing Scores (
+                        <small ng-repeat="user in users track by $index">
+                            {{user}}
+                            <small ng-if="!$last">, </small>
+                        </small>)
+                    </span>
+                </div>
+            </md-toolbar>
+
+            <md-table-container>
+                <table md-table md-progress="promise">
+                    <thead md-head md-order="query.order">
+                        <tr md-row>
+                            <th md-column md-order-by="name">
+                                <span>Image Name</span>
+                            </th>
+                            <th md-column>
+                                <span>Histology Score</span>
+                            </th>
+                            <th md-column>Initial Score</th>
+                            <th md-column>Mitosis Score</th>
+                            <th md-column>Tubular Score</th>
+                            <th md-column>Nuclear Score</th>
+                            <th md-column>See Details</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="score in scoresDetail | orderBy: query.order | limitTo: query.limit : (query.page-1) * query.limit">
+                            <td md-cell>{{score.image_name}}</td>
+                            <td md-cell ng-style="isSame(score.scores.histologicType) != 1 && {'color': '#DD1C1A'}">
+                                <span ng-repeat="v in score.scores.histologicType track by $index">
+                                    <span>{{v === -10 || v === null ? '-' : v}}</span>
+                                    <span ng-if="!$last"> | </span>
+                                </span>
+                            </td>
+                            <td md-cell ng-style="isSame(score.scores.initialScore) != 1 && {'color': '#DD1C1A'}">
+                                <span ng-repeat="v in score.scores.initialScore track by $index">
+                                    <span>{{v === -10 || v === null ? '-' : v}}</span>
+                                    <span ng-if="!$last"> | </span>
+                                </span>
+                            </td>
+                            <td md-cell ng-style="isSame(score.scores.mitosis) != 1 && {'color': '#DD1C1A'}">
+                                <span ng-repeat="v in score.scores.mitosis track by $index">
+                                    <span>{{v.overall === -10 || v.overall === null ? '-' : v.overall}}</span>
+
+                                    <span ng-if="!$last"> | </span>
+                                </span>
+                            </td>
+                            <td md-cell ng-style="isSame(score.scores.tubular) != 1 && {'color': '#DD1C1A'}">
+                                <span ng-repeat="v in score.scores.tubular track by $index">
+                                    <span>{{v.overall === -10 || v.overall === null ? '-' : v.overall}}</span>
+                                    <span ng-if="!$last"> | </span>
+                                </span>
+                            </td>
+                            <td md-cell ng-style="isSame(score.scores.nuclear) != 1 && {'color': '#DD1C1A'}">
+                                <span ng-repeat="v in score.scores.nuclear track by $index">
+                                    <span>{{v.overall === -10 || v.overall === null ? '-' : v.overall}}</span>
+                                    <span ng-if="!$last"> | </span>
+                                </span>
+                            </td>
+                            <td md-cell>
+                                <md-button ng-click="compare(score)" class="md-raised md-primary">
+                                    <md-icon>chevron_right</md-icon>
+                                    <span>Select</span>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <md-table-pagination md-limit="query.limit" md-limit-options="[10, 25, 50]" md-page="query.page" md-total="{{scoresDetail.length}}"
+                md-page-select md-boundary-links></md-table-pagination>
+        </md-card>
+    </div>
+    <md-fab-speed-dial md-direction="up" class="md-scale md-fab-bottom-right md-hover-full" md-open="btn" ng-mouseenter="btn=true"
+        ng-mouseleave="btn=false" style="position:fixed !important;">
+        <md-fab-trigger>
+            <md-button aria-label="Back" class="md-fab md-primary" ng-click="back('results')">
+                <md-tooltip md-direction="left">Back</md-tooltip>
+                <md-icon>arrow_back</md-icon>
+            </md-button>
+        </md-fab-trigger>
+    </md-fab-speed-dial>
+</div>
